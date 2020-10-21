@@ -15,7 +15,7 @@ def upload(filetype,**kwars):
         response = requests.post(server_list['anonfile']+'/upload', files=imagefile)
     elif website == 'letsupload':
          response = requests.post(server_list['letsupload']+'/upload', files=imagefile)
-    elif website == 'openload':
+    elif website == 'openlad':
         response = requests.post(server_list['openload']+'/upload', files=imagefile)
     elif website == 'megaupload':
         response = requests.post(server_list['megaupload']+'/upload', files=imagefile)
