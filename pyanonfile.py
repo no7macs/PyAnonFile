@@ -1,37 +1,35 @@
-import requests, json, os, random
+import requests
+import json
+import os
+import urllib
 
-def upload(filetype,**kwars):
-    output = kwars.get('output',None)
-    website = kwars.get('website',None)
-    server_list = {'anonfile': 'https://api.anonfiles.com',
+class pyAnonFile():
+    def __init__(self, file, service = 'anonfile'):
+        self.file = file
+        self.service = service
+        server_list = {'anonfile': 'https://api.anonfiles.com',
                         'openload': 'https://api.openload.cc',
-                       'letsupload': 'https://api.letsupload.cc',
-                       'megaupload': 'https://api.megaupload.nz',
-                       'bayfiles': 'https://api.bayfiles.com'}
+                        'letsupload': 'https://api.letsupload.cc',
+                        'megaupload': 'https://api.megaupload.nz',
+                        'bayfiles': 'https://api.bayfiles.com'}
 
-    imagefile = {'file': open(filetype, 'rb')}
+        imagefile = {'file': open(self.file, 'rb')}
 
-    if website == 'anonfile' or website == None:
-        response = requests.post(server_list['anonfile']+'/upload', files=imagefile)
-    elif website == 'letsupload':
-         response = requests.post(server_list['letsupload']+'/upload', files=imagefile)
-    elif website == 'openlad':
-        response = requests.post(server_list['openload']+'/upload', files=imagefile)
-    elif website == 'megaupload':
-        response = requests.post(server_list['megaupload']+'/upload', files=imagefile)
-    elif website == 'bayfiles':
-        response = requests.post(server_list['bayfiles']+'/upload', files=imagefile)
+        self.response = requests.post(server_list[self.service] if not self.service == None else 'anonfile' + '/upload', files=imagefile)
 
-    print("--REPONSE--" + str(response))
+        self.status = (self.response.json()['status'])
+        if self.status == False: return("Failed to upload file")
 
-    status = (response.json()['status'])
-    filelink = (response.json()['data']['file']['url']['full'])
+        return()
 
-    if status == False: return("Failed to upload file")
+    def getLink(self, encode=True):
+        self.filelink = (self.response.json()['data']['file']['url']['full'])
+        if encode == True:
+            self.filelink = urllib.parse.quote_plus(self.filelink)
+        return(self.filelink)
 
-    if output == None or output == 'link':
-        return filelink
-    elif output == 'raw': 
-        return response.json()
-    elif output == 'status':
-        return status
+    def getRaw(self):
+        return(self.response.json())
+
+    def getStatus(self):
+        return(self.status)
