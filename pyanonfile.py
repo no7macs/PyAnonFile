@@ -1,6 +1,4 @@
 import requests
-import json
-import os
 import urllib
 
 class upload:
@@ -19,7 +17,7 @@ class upload:
         self.response = response.json()
 
         self.status = ((self.response)['status'])
-        if self.status == False: return("Failed to upload file")
+        if self.status == False: pass
 
         return
 
