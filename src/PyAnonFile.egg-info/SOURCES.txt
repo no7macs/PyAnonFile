@@ -1,0 +1,8 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/PyAnonFile.egg-info/PKG-INFO
+src/PyAnonFile.egg-info/SOURCES.txt
+src/PyAnonFile.egg-info/dependency_links.txt
+src/PyAnonFile.egg-info/top_level.txt
